@@ -1,5 +1,9 @@
 package com.gildedrose;
 
+
+
+import java.util.Arrays;
+
 class GildedRose {
     Item[] items;
 
@@ -8,55 +12,39 @@ class GildedRose {
     }
 
     public void updateQuality() {
-        for (int i = 0; i < items.length; i++) {
-            if (!items[i].name.equals("Aged Brie")
-                    && !items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                if (items[i].quality > 0) {
-                    if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                        items[i].quality = items[i].quality - 1;
-                    }
-                }
-            } else {
-                if (items[i].quality < 50) {
-                    items[i].quality = items[i].quality + 1;
-
-                    if (items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        if (items[i].sellIn < 11) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1;
-                            }
-                        }
-
-                        if (items[i].sellIn < 6) {
-                            if (items[i].quality < 50) {
-                                items[i].quality = items[i].quality + 1;
-                            }
-                        }
-                    }
-                }
+        Arrays.stream(items).forEach(
+            item -> item.quality = switch (item.name) {
+                case "Aged brie" -> calculateAgedBrie(item);
+                case "Backstage passes to a TAFKAL80ETC concert" -> calculateBackStagePasses(item);
+                case "Conjured" -> calculateConjured(item);
+                case "Sulfuras, Hand of Ragnaros" -> 80;
+                default -> calculateNormal(item);
             }
+        );
+    }
 
-            if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                items[i].sellIn = items[i].sellIn - 1;
-            }
+    private int calculateNormal(Item item) {
+        return item.sellIn > 0 ? item.quality - 1 : item.quality - 2;
+    }
 
-            if (items[i].sellIn < 0) {
-                if (!items[i].name.equals("Aged Brie")) {
-                    if (!items[i].name.equals("Backstage passes to a TAFKAL80ETC concert")) {
-                        if (items[i].quality > 0) {
-                            if (!items[i].name.equals("Sulfuras, Hand of Ragnaros")) {
-                                items[i].quality = items[i].quality - 1;
-                            }
-                        }
-                    } else {
-                        items[i].quality = items[i].quality - items[i].quality;
-                    }
-                } else {
-                    if (items[i].quality < 50) {
-                        items[i].quality = items[i].quality + 1;
-                    }
-                }
-            }
+    private int calculateAgedBrie(Item item) {
+        return item.sellIn > 0 ? item.quality + 1 : item.quality + 2;
+    }
+
+    private int calculateBackStagePasses(Item item) {
+        int quality = item.quality;
+
+        if (item.sellIn <= 0) {
+            quality = 0;
+        } else if (item.sellIn <= 5) {
+            quality += 3;
+        } else if (item.sellIn <= 10) {
+            quality += 2;
         }
+        return quality;
+    }
+
+    private int calculateConjured(Item item) {
+        return item.sellIn > 0 ? item.quality - 2 : item.quality - 4;
     }
 }
