@@ -9,22 +9,22 @@ import java.util.TreeMap;
 
 public class TypeFactory {
 
-    private final Map<String, QualifiedType> types;
+    private final Map<String, QualifiedType> specialTypes;
     private final Normal normalType;
 
     public TypeFactory() {
-        this.types = new HashMap<>();
+        this.specialTypes = new HashMap<>();
 
         this.normalType = new Normal(1, 2);
 
-        types.put(
+        specialTypes.put(
             AgedBrie.NAME,
             new AgedBrie(
                 normalType.getQualityDecrease() * -1,
                 normalType.getQualityDecreaseMultiplier()
             )
         );
-        types.put(
+        specialTypes.put(
             Conjured.NAME,
             new Conjured(
                 normalType.getQualityDecrease(),
@@ -32,20 +32,20 @@ public class TypeFactory {
                 2
             )
         );
-        types.put(Sulfuras.NAME, new Sulfuras(80));
+        specialTypes.put(Sulfuras.NAME, new Sulfuras(80));
 
         NavigableMap<Integer, Integer> backstageTransforms = new TreeMap<>();
 
         backstageTransforms.put(5, 3);
         backstageTransforms.put(10, 2);
 
-        types.put(
+        specialTypes.put(
             BackstagePasses.NAME,
             new BackstagePasses(backstageTransforms, normalType.getQualityDecrease() * -1)
         );
     }
 
     public QualifiedType typeOf(Item item) {
-        return types.getOrDefault(item.name, normalType);
+        return specialTypes.getOrDefault(item.name, normalType);
     }
 }
