@@ -15,7 +15,7 @@ public class AgedBrie implements ItemType {
     @Override
     public void dailyUpdate(Item item) {
         modifier.increaseQuality(item);
-        if (item.quality < 50) {
+        if (item.sellIn <= 0) {
             modifier.increaseQuality(item);
         }
         modifier.progressDay(item);
