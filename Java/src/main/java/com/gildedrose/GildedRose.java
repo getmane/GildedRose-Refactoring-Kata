@@ -1,7 +1,7 @@
 package com.gildedrose;
 
-import com.gildedrose.types.TypeFactory;
-import com.gildedrose.types.validator.QualityValidator;
+import com.gildedrose.type.TypeFactory;
+import com.gildedrose.type.validator.QualityValidator;
 
 import java.util.Arrays;
 

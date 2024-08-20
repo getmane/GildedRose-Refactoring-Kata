@@ -1,4 +1,4 @@
-package com.gildedrose.types.validator;
+package com.gildedrose.type.validator;
 
 public class QualityValidator {
 
