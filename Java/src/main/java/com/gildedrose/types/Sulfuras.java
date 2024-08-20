@@ -16,14 +16,4 @@ public class Sulfuras implements QualifiedType {
     public int calculateQuality(Item item) {
         return constantQuality;
     }
-
-    @Override
-    public int getQualityChange() {
-        return 0;
-    }
-
-    @Override
-    public int getThresholdQualityChangeMultiplier() {
-        return 0;
-    }
 }

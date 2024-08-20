@@ -11,14 +11,14 @@ public class BackstagePasses implements QualifiedType {
 
     private final NavigableMap<Integer, Integer> sellInToQualityStages;
     private final int afterSellInQuality;
-    private final int defaultTransformation;
+    private final int defaultQualityIncrease;
 
     public BackstagePasses(
-        QualifiedType basicType,
-        NavigableMap<Integer, Integer> sellInToQualityStages
+        NavigableMap<Integer, Integer> sellInToQualityStages,
+        int defaultQualityIncrease
     ) {
         this.sellInToQualityStages = sellInToQualityStages;
-        this.defaultTransformation = basicType.getQualityChange() * -1;
+        this.defaultQualityIncrease = defaultQualityIncrease;
 
         this.afterSellInQuality = 0;
     }
@@ -30,21 +30,11 @@ public class BackstagePasses implements QualifiedType {
             : item.quality + getCurrentStage(item.sellIn);
     }
 
-    @Override
-    public int getQualityChange() {
-        return defaultTransformation;
-    }
-
-    @Override
-    public int getThresholdQualityChangeMultiplier() {
-        return afterSellInQuality;
-    }
-
     private int getCurrentStage(int sellIn) {
         try {
             return sellInToQualityStages.get(sellInToQualityStages.tailMap(sellIn, true).firstKey());
         } catch (NoSuchElementException ex) {
-            return defaultTransformation;
+            return defaultQualityIncrease;
         }
     }
 }

@@ -6,29 +6,20 @@ public class Conjured implements QualifiedType {
 
     public static final String NAME = "Conjured Mana Cake";
 
-    private final Basic basicType;
-    private final int qualityChange;
+    private final int normalQualityDecrease;
+    private final int normalSellInMultiplier;
+    private final int decreaseMultiplier;
 
-    public Conjured(QualifiedType basicType, int reduceMultiplier) {
-        this.qualityChange = basicType.getQualityChange() * reduceMultiplier;
-        this.basicType = new Basic(
-            qualityChange,
-            basicType.getThresholdQualityChangeMultiplier()
-        );
+    public Conjured(int normalQualityDecrease, int normalSellInMultiplier, int decreaseMultiplier) {
+        this.normalQualityDecrease = normalQualityDecrease;
+        this.normalSellInMultiplier = normalSellInMultiplier;
+        this.decreaseMultiplier = decreaseMultiplier;
     }
 
     @Override
     public int calculateQuality(Item item) {
-        return basicType.calculateQuality(item);
-    }
-
-    @Override
-    public int getQualityChange() {
-        return qualityChange;
-    }
-
-    @Override
-    public int getThresholdQualityChangeMultiplier() {
-        return basicType.getThresholdQualityChangeMultiplier();
+        return item.sellIn > 0
+            ? item.quality - normalQualityDecrease * decreaseMultiplier
+            : item.quality - normalQualityDecrease * decreaseMultiplier * normalSellInMultiplier;
     }
 }
