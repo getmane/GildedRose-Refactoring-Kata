@@ -2,24 +2,20 @@ package com.gildedrose.type;
 
 import com.gildedrose.Item;
 
-public class Conjured implements QualifiedType {
+public class Conjured implements ItemType {
 
     public static final String NAME = "Conjured Mana Cake";
 
-    private final int normalQualityDecrease;
-    private final int normalSellInMultiplier;
-    private final int decreaseMultiplier;
+    private final ModifiableItemType modifier;
 
-    public Conjured(int normalQualityDecrease, int normalSellInMultiplier, int decreaseMultiplier) {
-        this.normalQualityDecrease = normalQualityDecrease;
-        this.normalSellInMultiplier = normalSellInMultiplier;
-        this.decreaseMultiplier = decreaseMultiplier;
+    public Conjured(ModifiableItemType modifier) {
+        this.modifier = modifier;
     }
 
     @Override
-    public int calculateQuality(Item item) {
-        return item.sellIn > 0
-            ? item.quality - normalQualityDecrease * decreaseMultiplier
-            : item.quality - normalQualityDecrease * decreaseMultiplier * normalSellInMultiplier;
+    public void dailyUpdate(Item item) {
+        modifier.progressQuality(item);
+        modifier.progressQuality(item);
+        modifier.progressDay(item);
     }
 }

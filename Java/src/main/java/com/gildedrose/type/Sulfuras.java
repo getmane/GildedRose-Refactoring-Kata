@@ -2,18 +2,14 @@ package com.gildedrose.type;
 
 import com.gildedrose.Item;
 
-public class Sulfuras implements QualifiedType {
+public class Sulfuras implements ItemType {
 
     public static final String NAME = "Sulfuras, Hand of Ragnaros";
 
-    private final int constantQuality;
-
-    public Sulfuras(int constantQuality) {
-        this.constantQuality = constantQuality;
-    }
-
     @Override
-    public int calculateQuality(Item item) {
-        return constantQuality;
+    public void dailyUpdate(Item item) {
+        // Sulfuras quality is 80 and never changes
+        // Day should not be progressed
+        item.quality = 80;
     }
 }

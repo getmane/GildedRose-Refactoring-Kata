@@ -2,28 +2,38 @@ package com.gildedrose.type;
 
 import com.gildedrose.Item;
 
-public class Normal implements QualifiedType {
+public class Normal implements ModifiableItemType {
 
-    private final int qualityDecrease;
-    private final int sellInMultiplier;
-
-    public Normal(int qualityDecrease, int sellInMultiplier) {
-        this.qualityDecrease = qualityDecrease;
-        this.sellInMultiplier = sellInMultiplier;
+    @Override
+    public void dailyUpdate(Item item) {
+        progressQuality(item);
+        progressDay(item);
     }
 
     @Override
-    public int calculateQuality(Item item) {
-        return item.sellIn > 0
-            ? item.quality - qualityDecrease
-            : item.quality - qualityDecrease * sellInMultiplier;
+    public void progressQuality(Item item) {
+        decreaseQuality(item);
+        if (item.sellIn <= 0) {
+            decreaseQuality(item);
+        }
     }
 
-    public int getQualityDecrease() {
-        return this.qualityDecrease;
+    @Override
+    public void progressDay(Item item) {
+        item.sellIn--;
     }
 
-    public int getQualityDecreaseMultiplier() {
-        return this.sellInMultiplier;
+    @Override
+    public void decreaseQuality(Item item) {
+        if (item.quality > 0) {
+            item.quality -= 1;
+        }
+    }
+
+    @Override
+    public void increaseQuality(Item item) {
+        if (item.quality < 50) {
+            item.quality += 1;
+        }
     }
 }

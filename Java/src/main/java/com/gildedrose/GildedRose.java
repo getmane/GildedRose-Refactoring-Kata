@@ -1,15 +1,11 @@
 package com.gildedrose;
 
-import com.gildedrose.type.TypeFactory;
-import com.gildedrose.type.validator.QualityValidator;
+import com.gildedrose.type.ItemTypeFactory;
 
 import java.util.Arrays;
 
 class GildedRose {
     Item[] items;
-
-    private static final TypeFactory TYPE_FACTORY = new TypeFactory();
-    private static final QualityValidator QUALITY_VALIDATOR = new QualityValidator(50);
 
     public GildedRose(Item[] items) {
         this.items = items;
@@ -17,10 +13,7 @@ class GildedRose {
 
     public void updateQuality() {
         Arrays.stream(items).forEach(
-            item -> {
-                item.quality = QUALITY_VALIDATOR.validate(TYPE_FACTORY.typeOf(item).calculateQuality(item));
-                item.sellIn--;
-            }
+            item -> ItemTypeFactory.typeOf(item).dailyUpdate(item)
         );
     }
 }

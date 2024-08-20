@@ -2,22 +2,22 @@ package com.gildedrose.type;
 
 import com.gildedrose.Item;
 
-public class AgedBrie implements QualifiedType {
+public class AgedBrie implements ItemType {
 
     public static final String NAME = "Aged Brie";
 
-    private final int qualityIncrease;
-    private final int afterSellInIncreaseMultiplier;
+    private final ModifiableItemType modifier;
 
-    public AgedBrie(int qualityIncrease, int afterSellInIncreaseMultiplier) {
-        this.qualityIncrease = qualityIncrease;
-        this.afterSellInIncreaseMultiplier = afterSellInIncreaseMultiplier;
+    public AgedBrie(ModifiableItemType modifier) {
+        this.modifier = modifier;
     }
 
     @Override
-    public int calculateQuality(Item item) {
-        return item.sellIn > 0
-            ? item.quality + qualityIncrease
-            : item.quality + qualityIncrease * afterSellInIncreaseMultiplier;
+    public void dailyUpdate(Item item) {
+        modifier.increaseQuality(item);
+        if (item.quality < 50) {
+            modifier.increaseQuality(item);
+        }
+        modifier.progressDay(item);
     }
 }
