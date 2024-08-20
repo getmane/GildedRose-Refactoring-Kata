@@ -7,11 +7,13 @@ public class Conjured implements QualifiedType {
     public static final String NAME = "Conjured Mana Cake";
 
     private final Basic basicType;
+    private final int qualityChange;
 
     public Conjured(QualifiedType basicType, int reduceMultiplier) {
+        this.qualityChange = basicType.getQualityChange() * reduceMultiplier;
         this.basicType = new Basic(
-            basicType.getQualityChange() * reduceMultiplier,
-            basicType.getAfterSellInQualityMultiplier() * reduceMultiplier
+            qualityChange,
+            basicType.getAfterSellInQualityChangeMultiplier()
         );
     }
 
@@ -22,11 +24,11 @@ public class Conjured implements QualifiedType {
 
     @Override
     public int getQualityChange() {
-        return basicType.getQualityChange();
+        return qualityChange;
     }
 
     @Override
-    public int getAfterSellInQualityMultiplier() {
-        return basicType.getAfterSellInQualityMultiplier();
+    public int getAfterSellInQualityChangeMultiplier() {
+        return basicType.getAfterSellInQualityChangeMultiplier();
     }
 }

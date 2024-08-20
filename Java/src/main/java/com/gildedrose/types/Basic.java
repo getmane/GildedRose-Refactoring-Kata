@@ -23,7 +23,7 @@ public class Basic implements QualifiedType {
         return this.qualityDecrease;
     }
 
-    public int getAfterSellInQualityMultiplier() {
+    public int getAfterSellInQualityChangeMultiplier() {
         return this.qualityDecreaseMultiplier;
     }
 }

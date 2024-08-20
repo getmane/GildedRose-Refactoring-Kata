@@ -36,7 +36,7 @@ public class BackstagePasses implements QualifiedType {
     }
 
     @Override
-    public int getAfterSellInQualityMultiplier() {
+    public int getAfterSellInQualityChangeMultiplier() {
         return afterSellInQuality;
     }
 

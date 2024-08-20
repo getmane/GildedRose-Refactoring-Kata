@@ -23,7 +23,7 @@ public class Sulfuras implements QualifiedType {
     }
 
     @Override
-    public int getAfterSellInQualityMultiplier() {
+    public int getAfterSellInQualityChangeMultiplier() {
         return 0;
     }
 }

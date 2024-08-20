@@ -11,7 +11,7 @@ public class AgedBrie implements QualifiedType {
     public AgedBrie(QualifiedType basicType) {
         this.basicType = new Basic(
             basicType.getQualityChange() * -1,
-            basicType.getAfterSellInQualityMultiplier()
+            basicType.getAfterSellInQualityChangeMultiplier()
         );
     }
 
@@ -26,7 +26,7 @@ public class AgedBrie implements QualifiedType {
     }
 
     @Override
-    public int getAfterSellInQualityMultiplier() {
-        return basicType.getAfterSellInQualityMultiplier();
+    public int getAfterSellInQualityChangeMultiplier() {
+        return basicType.getAfterSellInQualityChangeMultiplier();
     }
 }
