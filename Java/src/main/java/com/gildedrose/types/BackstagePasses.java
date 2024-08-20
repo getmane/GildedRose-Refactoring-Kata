@@ -14,11 +14,11 @@ public class BackstagePasses implements QualifiedType {
     private final int defaultTransformation;
 
     public BackstagePasses(
-        NavigableMap<Integer, Integer> sellInToQualityStages,
-        int defaultTransformation
+        QualifiedType basicType,
+        NavigableMap<Integer, Integer> sellInToQualityStages
     ) {
         this.sellInToQualityStages = sellInToQualityStages;
-        this.defaultTransformation = defaultTransformation;
+        this.defaultTransformation = basicType.getQualityChange() * -1;
 
         this.afterSellInQuality = 0;
     }

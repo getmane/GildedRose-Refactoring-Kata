@@ -38,7 +38,7 @@ class GildedRose {
 
         types.put(
             BackstagePasses.NAME,
-            new BackstagePasses(backstageTransforms, basicType.getQualityChange())
+            new BackstagePasses(basicType, backstageTransforms)
         );
     }
 
