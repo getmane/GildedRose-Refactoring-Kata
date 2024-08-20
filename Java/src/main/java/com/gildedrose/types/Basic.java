@@ -20,7 +20,7 @@ public class Basic implements QualifiedType {
     }
 
     public int getQualityChange() {
-        return this.qualityDecrease;
+        return this.qualityDecrease * -1;
     }
 
     public int getAfterSellInQualityChangeMultiplier() {

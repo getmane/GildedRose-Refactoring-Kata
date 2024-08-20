@@ -7,10 +7,12 @@ public class AgedBrie implements QualifiedType {
     public static final String NAME = "Aged Brie";
 
     private final QualifiedType basicType;
+    private final int qualityChange;
 
     public AgedBrie(QualifiedType basicType) {
+        this.qualityChange = basicType.getQualityChange() * -1;
         this.basicType = new Basic(
-            basicType.getQualityChange() * -1,
+            qualityChange,
             basicType.getAfterSellInQualityChangeMultiplier()
         );
     }
@@ -22,7 +24,7 @@ public class AgedBrie implements QualifiedType {
 
     @Override
     public int getQualityChange() {
-        return basicType.getQualityChange();
+        return qualityChange;
     }
 
     @Override
