@@ -1,50 +1,60 @@
 package com.gildedrose;
 
-
+import com.gildedrose.types.AgedBrie;
+import com.gildedrose.types.BackstagePasses;
+import com.gildedrose.types.Conjured;
+import com.gildedrose.types.QualifiedType;
+import com.gildedrose.types.Basic;
+import com.gildedrose.types.Sulfuras;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.NavigableMap;
+import java.util.TreeMap;
 
 class GildedRose {
     Item[] items;
 
+    private static final int QUALITY_CAP = 50;
+
+    private final Map<String, QualifiedType> types;
+    private final QualifiedType basicType;
+
     public GildedRose(Item[] items) {
         this.items = items;
+        this.types = new HashMap<>();
+
+        this.basicType = new Basic(1, 2);
+
+        types.put(AgedBrie.NAME, new AgedBrie(basicType));
+        types.put(Conjured.NAME, new Conjured(basicType, 2));
+        types.put(Sulfuras.NAME, new Sulfuras(80));
+
+        NavigableMap<Integer, Integer> backstageTransforms = new TreeMap<>();
+
+        backstageTransforms.put(5, 3);
+        backstageTransforms.put(10, 2);
+
+        types.put(
+            BackstagePasses.NAME,
+            new BackstagePasses(backstageTransforms, basicType.getQualityChange())
+        );
     }
 
     public void updateQuality() {
-        Arrays.stream(items).forEach(
-            item -> item.quality = switch (item.name) {
-                case "Aged brie" -> calculateAgedBrie(item);
-                case "Backstage passes to a TAFKAL80ETC concert" -> calculateBackStagePasses(item);
-                case "Conjured" -> calculateConjured(item);
-                case "Sulfuras, Hand of Ragnaros" -> 80;
-                default -> calculateNormal(item);
+        Arrays.stream(items).filter(GildedRose::itemIsNotSulfuras).forEach(
+            item -> {
+                item.quality = types.getOrDefault(item.name, basicType).calculateQuality(item);
+                if (item.quality > QUALITY_CAP) {
+                    item.quality = QUALITY_CAP;
+                }
+                item.sellIn--;
             }
         );
     }
 
-    private int calculateNormal(Item item) {
-        return item.sellIn > 0 ? item.quality - 1 : item.quality - 2;
-    }
-
-    private int calculateAgedBrie(Item item) {
-        return item.sellIn > 0 ? item.quality + 1 : item.quality + 2;
-    }
-
-    private int calculateBackStagePasses(Item item) {
-        int quality = item.quality;
-
-        if (item.sellIn <= 0) {
-            quality = 0;
-        } else if (item.sellIn <= 5) {
-            quality += 3;
-        } else if (item.sellIn <= 10) {
-            quality += 2;
-        }
-        return quality;
-    }
-
-    private int calculateConjured(Item item) {
-        return item.sellIn > 0 ? item.quality - 2 : item.quality - 4;
+    private static boolean itemIsNotSulfuras(Item item) {
+        return !item.name.equals(Sulfuras.NAME);
     }
 }
