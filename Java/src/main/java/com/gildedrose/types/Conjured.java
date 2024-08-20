@@ -13,7 +13,7 @@ public class Conjured implements QualifiedType {
         this.qualityChange = basicType.getQualityChange() * reduceMultiplier;
         this.basicType = new Basic(
             qualityChange,
-            basicType.getAfterSellInQualityChangeMultiplier()
+            basicType.getThresholdQualityChangeMultiplier()
         );
     }
 
@@ -28,7 +28,7 @@ public class Conjured implements QualifiedType {
     }
 
     @Override
-    public int getAfterSellInQualityChangeMultiplier() {
-        return basicType.getAfterSellInQualityChangeMultiplier();
+    public int getThresholdQualityChangeMultiplier() {
+        return basicType.getThresholdQualityChangeMultiplier();
     }
 }

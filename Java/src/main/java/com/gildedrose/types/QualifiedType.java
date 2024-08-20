@@ -8,5 +8,5 @@ public interface QualifiedType {
 
     int getQualityChange();
 
-    int getAfterSellInQualityChangeMultiplier();
+    int getThresholdQualityChangeMultiplier();
 }
